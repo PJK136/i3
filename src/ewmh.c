@@ -10,6 +10,7 @@
 #include "all.h"
 
 #include "i3-atoms_NET_SUPPORTED.xmacro.h"
+#include "i3-atoms_KDE.xmacro.h"
 
 xcb_window_t ewmh_window;
 
@@ -310,6 +311,7 @@ void ewmh_setup_hints(void) {
     xcb_atom_t supported_atoms[] = {
 #define xmacro(atom) A_##atom,
         I3_NET_SUPPORTED_ATOMS_XMACRO
+        I3_KDE_ATOMS_XMACRO
 #undef xmacro
     };
 

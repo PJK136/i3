@@ -36,6 +36,7 @@
 
 #include "i3-atoms_NET_SUPPORTED.xmacro.h"
 #include "i3-atoms_rest.xmacro.h"
+#include "i3-atoms_KDE.xmacro.h"
 
 /* The original value of RLIMIT_CORE when i3 was started. We need to restore
  * this before starting any other process, since we set RLIMIT_CORE to
@@ -110,6 +111,7 @@ bool force_xinerama = false;
 #define xmacro(atom) xcb_atom_t A_##atom;
 I3_NET_SUPPORTED_ATOMS_XMACRO
 I3_REST_ATOMS_XMACRO
+I3_KDE_ATOMS_XMACRO
 #undef xmacro
 
 /*
@@ -621,6 +623,7 @@ int main(int argc, char *argv[]) {
     xcb_intern_atom_cookie_t atom##_cookie = xcb_intern_atom(conn, 0, strlen(#atom), #atom);
     I3_NET_SUPPORTED_ATOMS_XMACRO
     I3_REST_ATOMS_XMACRO
+    I3_KDE_ATOMS_XMACRO
 #undef xmacro
 
     root_depth = root_screen->root_depth;
@@ -686,6 +689,7 @@ int main(int argc, char *argv[]) {
     } while (0);
     I3_NET_SUPPORTED_ATOMS_XMACRO
     I3_REST_ATOMS_XMACRO
+    I3_KDE_ATOMS_XMACRO
 #undef xmacro
 
     load_configuration(override_configpath, C_LOAD);
