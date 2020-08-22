@@ -486,6 +486,11 @@ struct Window {
     double min_aspect_ratio;
     double max_aspect_ratio;
 
+    /** Window icon, as array of ARGB pixels */
+    uint32_t* icon;
+    int icon_width;
+    int icon_height;
+
     /** The window has a nonrectangular shape. */
     bool shaped;
     /** The window has a nonrectangular input shape. */

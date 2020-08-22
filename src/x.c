@@ -615,6 +615,10 @@ void x_draw_decoration(Con *con) {
 
     /* 6: draw the title */
     int text_offset_y = (con->deco_rect.height - config.font.height) / 2;
+    int text_offset_x = 0;
+    struct Window *win = con->window;
+    if (win != NULL && win->icon)
+        text_offset_x = 18;
 
     const int title_padding = logical_px(2);
     const int deco_width = (int)con->deco_rect.width;
@@ -656,7 +660,6 @@ void x_draw_decoration(Con *con) {
     }
 
     i3String *title = NULL;
-    struct Window *win = con->window;
     if (win == NULL) {
         if (con->title_format == NULL) {
             char *_title;
@@ -700,12 +703,30 @@ void x_draw_decoration(Con *con) {
 
     draw_util_text(title, &(parent->frame_buffer),
                    p->color->text, p->color->background,
-                   con->deco_rect.x + title_offset_x,
+                   con->deco_rect.x + text_offset_x + title_offset_x,
                    con->deco_rect.y + text_offset_y,
-                   deco_width - mark_width - 2 * title_padding);
+                   deco_width - text_offset_x - mark_width - 2 * title_padding);
 
     if (win == NULL || con->title_format != NULL) {
         I3STRING_FREE(title);
+    }
+
+    /* Draw the icon */
+    if (win != NULL && win->icon) {
+        uint16_t width = 16;
+        uint16_t height = 16;
+
+        int icon_offset_y = (con->deco_rect.height - height) / 2;
+
+        draw_util_image(
+                (unsigned char *)win->icon,
+                win->icon_width,
+                win->icon_height,
+                &(parent->frame_buffer),
+                con->deco_rect.x + title_offset_x,
+                con->deco_rect.y + icon_offset_y,
+                width,
+                height);
     }
 
     x_draw_decoration_after_title(con, p);
