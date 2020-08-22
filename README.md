@@ -16,32 +16,42 @@ For information about contributing to i3, please see [CONTRIBUTING.md](.github/C
 
 ## Purpose of this repo
 
-Vanilla i3 doesn't play that well with KDE/Plasma, and i love KDE, that's why i'm maintaining this repo.
-
-Up until now i just added code and haven't modified vanilla i3 code. I will try to stick to this in the future ensuring simple merges.
+Vanilla i3 doesn't play that well with KDE/Plasma, that's why I'm maintaining this repo.
 
 ### Branches
 
-* **master, next**: those will stay vanilla for easy fast-forward merges of the official i3 repo
+* **stable**: the stable branch of the official i3 repo which the patches are applied to.
 
-* **kde-master**: that's what you want if you want to use i3 with KDE/Plasma
+* **kde-master**: that's what you want if you want to use i3 with KDE/Plasma (forked from https://github.com/sLite/i3 and maintained here by me).
 
-I won't maintain an up-to-date **next** branch with KDE/Plasma patches included, if you need that, feel free to clone :)
+* **kde-wm-icons-master**: my personal branch with some extra stuff like PKGBUILD for Arch packaging.
+
+I will sometimes **rebase** `kde-master` and `kde-wm-icons-master` to update with the official i3 repo.
 
 ### Features
 
 * Proper handling of KDE/Plasma desktop (_NET_WM_WINDOW_TYPE_DESKTOP)
 * Proper handling of KDE/Plasma popups and floating panels (mostly widget stuff) (_NET_WM_STATE_STAYS_ON_TOP)
 
-### i3-config
+### Configuration
 
-No special settings needed.
+Please see https://github.com/heckelson/i3-and-kde-plasma
 
-If you want kmix, kcalc and those other small tools floating, those are settings you still have to do with your i3 config.
+Almost everything applies except "Killing the existing window that covers everything" because this fork enables us to keep the Plasma Desktop window from plasmashell in the background.
 
-You can check https://github.com/sLite/i3-config for an example config and instructions to set up KDE integration.
+You may find the following i3 config lines interesting for more integration:
+
+```
+# Kill the KDE system tray if you want another system tray
+exec --no-startup-id killall xembedsniproxy
+
+# Better integration for spectacle
+for_window [class="spectacle"] floating enable
+no_focus [class="spectacle"]
+```
 
 ### Credits
 
 * Michael Stapelberg for this awesome project, and all the contributors for their work.
-* Marius Muja for his KDE fixes on earlier versions of i3. They were a gamechanger, and without them i probably would have swiched back to KWM and would be unhappy for the rest of my life ;) I owe you some beers! I basically just ported his patches to 4.8 and left out what isn't necessary anymore.
+* Marius Muja for his KDE fixes on earlier versions of i3.
+* sLite for his KDE patches on current versions of i3.
