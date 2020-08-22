@@ -13,17 +13,17 @@ For information about contributing to i3, please see [CONTRIBUTING.md](.github/C
 
 ## Purpose of this repo
 
-Vanilla i3 doesn't play that well with KDE/Plasma, and i love KDE, that's why i'm maintaining this repo.
-
-Up until now i just added code and haven't modified vanilla i3 code. I will try to stick to this in the future ensuring simple merges.
+Vanilla i3 doesn't play that well with KDE/Plasma, that's why I'm maintaining this repo.
 
 ### Branches
 
-* **master, next**: those will stay vanilla for easy fast-forward merges of the official i3 repo
+* **stable**: the stable branch of the official i3 repo which the patches are applied to.
 
-* **kde-master**: that's what you want if you want to use i3 with KDE/Plasma
+* **kde-master**: that's what you want if you want to use i3 with KDE/Plasma (forked from https://github.com/sLite/i3 and maintained here by me).
 
-I won't maintain an up-to-date **next** branch with KDE/Plasma patches included, if you need that, feel free to clone :)
+* **kde-wm-icons-master**: My personal branch with some extra stuff merged like window-icons patch from https://github.com/laur89/i3-extras or a PKGBUILD for Arch packaging.
+
+I will sometimes **rebase** `kde-master` and `kde-wm-icons-master` to update with the official i3 repo.
 
 ### Features
 
@@ -32,13 +32,35 @@ I won't maintain an up-to-date **next** branch with KDE/Plasma patches included,
 
 ### i3-config
 
-No special settings needed.
+No special settings needed according to my knowledge, it works OOTB.
 
-If you want kmix, kcalc and those other small tools floating, those are settings you still have to do with your i3 config.
+You can find these following config lines interesting for more integration:
 
-You can check https://github.com/sLite/i3-config for an example config and instructions to set up KDE integration.
+```
+# KDE Logout prompt on $mod+Escape
+bindsym $mod+Escape exec --no-startup-id "qdbus org.kde.ksmserver /KSMServer logout 1 2 3"
+
+# Compositor
+exec --no-startup-id picom
+
+# Kill the KDE system tray if you want another system tray
+exec --no-startup-id killall xembedsniproxy
+```
+
+### KDE config
+
+Create `~/.config/plasma-workspace/env/wm.sh` and fill it with:
+
+```
+# Disable KWin and use i3 as WM
+export KDEWM=/usr/bin/i3
+```
+
+Then `chmod +x ~/.config/plasma-workspace/env/wm.sh`
 
 ### Credits
 
 * Michael Stapelberg for this awesome project, and all the contributors for their work.
-* Marius Muja for his KDE fixes on earlier versions of i3. They were a gamechanger, and without them i probably would have swiched back to KWM and would be unhappy for the rest of my life ;) I owe you some beers! I basically just ported his patches to 4.8 and left out what isn't necessary anymore.
+* Marius Muja for his KDE fixes on earlier versions of i3.
+* sLite for his KDE patches on current versions of i3.
+* Mickaël Thomas for his window icons patch.
